@@ -20,27 +20,24 @@ $cert = New-SelfSignedCertificate `
   ) `
   -Provider 'Microsoft Enhanced RSA and AES Cryptographic Provider'
 
-# Supprime l’eventuel listener HTTP si tu veux du full HTTPS
+# Delete actual HTTP listener
 Remove-Item -Path WSMan:\Localhost\Listener\Listener_*\ -Recurse -Force
 
-# Crée le listener HTTPS
+# <Add HTTPS listener
 New-Item -Path WSMan:\Localhost\Listener `
   -Transport HTTPS `
-  -Address * `
+  -Address * ` 
   -Hostname $FQDN `
   -CertificateThumbprint $cert.Thumbprint | Out-Null
 
-# Vérifications
+# Check if everything is apply
 Get-ChildItem WSMan:\Localhost\Listener
 winrm enumerate winrm/config/listener
 
-
-
-
-
-# $certi = $cert.Thumbprint
-# $com = $env:COMPUTERNAME
-# $cert = Get-ChildItem Cert:\LocalMachine\My\$certi
-# test-wsman xXXX -UseSSL
-# Export-Certificate -Cert $cert -FilePath C:\temp\$com.cer
-# Import-Certificate -FilePath .\winrm-server.cer -CertStoreLocation Cert:\LocalMachine\Root
+### Optional
+<# Export certificate
+$cthumbprint = $cert.Thumbprint
+$cname = $env:COMPUTERNAME
+$cert = Get-ChildItem Cert:\LocalMachine\My\$cthumbprint
+Export-Certificate -Cert $cert -FilePath C:\temp\$cname.cer
+#>
