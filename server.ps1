@@ -1,6 +1,8 @@
+# Try to find FQDN name of the server
 $FQDN = try { [System.Net.Dns]::GetHostEntry($env:COMPUTERNAME).HostName } catch { $env:COMPUTERNAME }
 
-# Création d’un cert serveur renforcé pour WinRM HTTPS (15 ans)
+# Add a self signed certificate with 50 years validity
+# This is at risk but we set some of security things on it
 $cert = New-SelfSignedCertificate `
   -DnsName $FQDN, $env:COMPUTERNAME `
   -CertStoreLocation 'Cert:\LocalMachine\My' `
