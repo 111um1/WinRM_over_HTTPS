@@ -6,4 +6,7 @@ Import-Certificate -FilePath .\winrm-server.cer -CertStoreLocation Cert:\LocalMa
 # Test WinRM access
 test-wsman SERVERNAME -UseSSL
 
+# Basic test
+Invoke-Command -ComputerName SERVERNAME -UseSSL -ScriptBlock { ipconfig }
+
 #>
