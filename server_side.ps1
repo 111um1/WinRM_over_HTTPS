@@ -1,3 +1,7 @@
+# Check if WinRM is already installed. If not, it will proceed with the installation
+if (-not (Get-Service WinRM -ErrorAction SilentlyContinue)) { winrm quickconfig -q}
+
+
 # Try to find FQDN name of the server
 $FQDN = try { [System.Net.Dns]::GetHostEntry($env:COMPUTERNAME).HostName } catch { $env:COMPUTERNAME }
 
