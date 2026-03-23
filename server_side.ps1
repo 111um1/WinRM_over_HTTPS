@@ -4,7 +4,7 @@ $FQDN = try { [System.Net.Dns]::GetHostEntry($env:COMPUTERNAME).HostName } catch
 # Add a self signed certificate with 50 years validity
 # This is at risk but we set some of security things on it
 $cert = New-SelfSignedCertificate `
-  -DnsName $FQDN, $env:COMPUTERNAME `
+  -DnsName $FQDN `
   -CertStoreLocation 'Cert:\LocalMachine\My' `
   -NotAfter (Get-Date).AddYears(50) `
   -KeyAlgorithm RSA `
@@ -23,10 +23,12 @@ $cert = New-SelfSignedCertificate `
 # Delete actual HTTP listener
 Remove-Item -Path WSMan:\Localhost\Listener\Listener_*\ -Recurse -Force
 
+$cthumbprint = $cert.Thumbprint
+
 # <Add HTTPS listener
 New-Item -Path WSMan:\Localhost\Listener `
   -Transport HTTPS `
-  -Address * ` 
+  -Address * `
   -Hostname $FQDN `
   -CertificateThumbprint $cert.Thumbprint | Out-Null
 
@@ -34,10 +36,5 @@ New-Item -Path WSMan:\Localhost\Listener `
 Get-ChildItem WSMan:\Localhost\Listener
 winrm enumerate winrm/config/listener
 
-### Optional
-<# Export certificate
-$cthumbprint = $cert.Thumbprint
-$cname = $env:COMPUTERNAME
-$cert = Get-ChildItem Cert:\LocalMachine\My\$cthumbprint
-Export-Certificate -Cert $cert -FilePath C:\temp\$cname.cer
-#>
+# Export the certificate (upload it on the client side)
+Export-Certificate -Cert $cert -FilePath C:\temp\$FQDN.cer
