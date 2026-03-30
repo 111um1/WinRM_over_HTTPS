@@ -42,3 +42,7 @@ winrm enumerate winrm/config/listener
 
 # Export the certificate (upload it on the client side)
 Export-Certificate -Cert $cert -FilePath C:\temp\$FQDN.cer
+
+#Add a local firewall rule
+#New-NetFirewallRule -DisplayName "WinRM_HTTPS" -Direction Inbound -Action Allow -Enabled True -Protocol TCP -LocalPort 5986 -RemoteAddress xxx.xxx.xxx.xxx -Profile Any
+
