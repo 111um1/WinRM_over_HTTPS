@@ -9,7 +9,6 @@ test-wsman SERVERNAME -UseSSL
 # Basic test
 Invoke-Command -ComputerName SERVERNAME -UseSSL -ScriptBlock { ipconfig }
 Invoke-Command -ComputerName (Get-Content .\servers.txt) -UseSSL -ScriptBlock { ipconfig }
-``
 
 # Check if domain firewall is enabled
 Invoke-Command -ComputerName (Get-Content .\servers_sage.txt) -UseSSL -ScriptBlock {
