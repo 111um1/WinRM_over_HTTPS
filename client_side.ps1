@@ -22,7 +22,7 @@ Invoke-Command -ComputerName (Get-Content .\servers_sage.txt) -UseSSL -ScriptBlo
   }
 } |
 Sort-Object Hostname, Profil |
-Where-Object { $_.Profil -eq "Public" -and $_.Actif -eq $false } |
+Where-Object { $_.Profil -eq "Domain" -and $_.Actif -eq $false } |
 Format-Table -AutoSize
 
 #>
