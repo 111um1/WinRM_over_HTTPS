@@ -22,7 +22,7 @@ $cert = New-SelfSignedCertificate `
       # Basic Constraints: CA=false
       '2.5.29.19={critical}{text}CA=FALSE'
   ) `
-  -Provider 'Microsoft Enhanced RSA and AES Cryptographic Provider'
+  -Provider 'Microsoft Software Key Storage Provider'
 
 # Delete actual HTTP listener
 Remove-Item -Path WSMan:\Localhost\Listener\Listener_*\ -Recurse -Force
