@@ -25,7 +25,7 @@ $cert = New-SelfSignedCertificate `
   -Provider 'Microsoft Software Key Storage Provider'
 
 # Delete actual HTTP listener
-Remove-Item -Path WSMan:\Localhost\Listener\Listener_*\ -Recurse -Force
+# Remove-Item -Path WSMan:\Localhost\Listener\Listener_*\ -Recurse -Force
 
 $cthumbprint = $cert.Thumbprint
 
